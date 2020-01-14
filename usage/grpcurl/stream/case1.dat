@@ -1,0 +1,3 @@
+{"msgType":"header","headers":{"content-type":"application/json"},"fin":false}
+{"msgType":"data","body":"Z3Vvc29uZ2NodQ==","fin":false}
+{"msgType":"finish","body":"Z3Vvc29uZ2NodQ==","fin":true}

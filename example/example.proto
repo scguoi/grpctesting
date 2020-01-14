@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package example;
+
+message H3Req {
+    string msgType = 1;
+    map<string, string> headers = 2;
+    bytes body = 3;
+    bool fin = 4;
+}
+
+message H3Resp {
+    string msgType = 1;
+    map<string, string> headers = 2;
+    bytes body = 3;
+    bool fin = 4;
+}
+
+// wrapper service
+service H3Wrapper {
+    rpc Stream (stream H3Req) returns (stream H3Resp);
+    rpc OneWay (H3Req) returns (H3Resp);
+}
