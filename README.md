@@ -134,7 +134,7 @@ ghz --insecure --call example.H3Wrapper.Stream -d '[{"msgType":"header","headers
 
 ### grpcurl
 
-[参考](https://github.com/scguoi/grpctesting/autotesting/grpcurl/testing.sh)
+[参考](https://github.com/scguoi/grpctesting/blob/master/autotesting/grpcurl/testing.sh)
 
 ```shell script
 # 获取当前目录
@@ -151,7 +151,7 @@ done
 
 ### ghz
 
-[参考](https://github.com/scguoi/grpctesting/autotesting/ghz/testing.sh)
+[参考](https://github.com/scguoi/grpctesting/blob/master/autotesting/ghz/testing.sh)
 
 ```shell script
 # 获取当前目录
