@@ -112,9 +112,57 @@ grpcurl -plaintext -d '{"msgType":"header","headers":{"content-type":"applicatio
 
 ### OneWay接口请求
 
+```shell script
+ghz --insecure --call example.H3Wrapper.OneWay \
+    -d '{"msgType":"header","headers":{"content-type":"application/json"},"fin":false}' \
+    127.0.0.1:18000 -c 1 -n 1
+
+ghz --insecure --proto "${local_directory}"/../../example/example.proto --call example.H3Wrapper.OneWay \
+    -d '{"msgType":"header","headers":{"content-type":"application/json"},"fin":false}' \
+    127.0.0.1:18000 -c 1 -n 1
+```
+
 ### Stream接口请求
+
+```shell script
+ghz --insecure --call example.H3Wrapper.Stream -d '[{"msgType":"header","headers":{"content-type":"application/json"},"fin":false},{"msgType":"data","body":"Z3Vvc29uZ2NodQ==","fin":false},{"msgType":"finish","body":"Z3Vvc29uZ2NodQ==","fin":true}]' 127.0.0.1:18000 -c 1 -n 1
+```
 
 ## 自动化测试
 
+主要思路是遍历case文件自动发起请求
+
 ### grpcurl
 
+[参考](https://github.com/scguoi/grpctesting/autotesting/grpcurl/testing.sh)
+
+```shell script
+# 获取当前目录
+local_directory="$(cd "$(dirname "$0")" && pwd)"
+
+for casefile in "${local_directory}"/stream/*.dat; do
+  grpcurl <"${casefile}" -plaintext -d @ 127.0.0.1:18000 example.H3Wrapper/Stream
+done
+
+for casefile in "${local_directory}"/oneway/*.dat; do
+  grpcurl <"${casefile}" -plaintext -d @ 127.0.0.1:18000 example.H3Wrapper/OneWay
+done
+```
+
+### ghz
+
+[参考](https://github.com/scguoi/grpctesting/autotesting/ghz/testing.sh)
+
+```shell script
+# 获取当前目录
+local_directory="$(cd "$(dirname "$0")" && pwd)"
+
+for casefile in "${local_directory}"/oneway/*.dat; do
+  ghz --insecure --call example.H3Wrapper.OneWay 127.0.0.1:18000 -c 1 -n 1 -D "${casefile}"
+done
+
+# 流式接口
+for casefile in "${local_directory}"/stream/*.dat; do
+  ghz --insecure --call example.H3Wrapper.Stream 127.0.0.1:18000 -c 1 -n 1  -D "${casefile}"
+done
+```
